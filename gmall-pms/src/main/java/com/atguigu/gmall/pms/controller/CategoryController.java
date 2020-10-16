@@ -33,6 +33,16 @@ public class CategoryController {
 
     @Autowired
     private CategoryService categoryService;
+    /*
+        @PathVariable注解
+            如果Long后面定义的参数名和GetMapping中的参数一致，都是 parentId
+            则直接简写 @PathVariable，后面不用写()
+     */
+    @GetMapping("parent/{parentId}")
+    public ResponseVo<List<CategoryEntity>> queryCategoriesByPid(@PathVariable("parentId") Long pid){
+        List<CategoryEntity> categoryEntities = categoryService.queryCategoriesByPid(pid);
+        return ResponseVo.ok(categoryEntities);
+    }
 
     /**
      * 列表
