@@ -30,24 +30,27 @@ public class SearchService {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+
     }
 
     private SearchSourceBuilder buildDsl(SearchParamVo paramVo){
 
         SearchSourceBuilder sourceBuilder = new SearchSourceBuilder();
-
         String keyword = paramVo.getKeyword();
-        if (StringUtils.isBlank(keyword)){
-            // TODO：打广告
+        //判断搜索关键字是否为空
+        if(StringUtils.isBlank(keyword)){
             return sourceBuilder;
         }
 
-        // 1. 构建搜索条件
+
+        // 1. 构建搜索条件，就是在搜索框中输入的内容
         BoolQueryBuilder boolQueryBuilder = QueryBuilders.boolQuery();
         sourceBuilder.query(boolQueryBuilder);
 
         // 1.1. 构建匹配查询
-        boolQueryBuilder.must(QueryBuilders.matchQuery("title", keyword).operator(Operator.AND));
+        boolQueryBuilder.must(QueryBuilders.matchQuery("title",keyword).operator(Operator.AND));
+
 
         // 1.2. 构建过滤条件
         // 1.2.1. 品牌过滤
@@ -73,7 +76,7 @@ public class SearchService {
 
         // 5.3. 规格参数的嵌套聚合
 
-        System.out.println(sourceBuilder);
+//        System.out.println(sourceBuilder);
         return sourceBuilder;
     }
 }

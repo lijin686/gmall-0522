@@ -40,6 +40,12 @@ public class SpuController {
         PageResultVo pageResultVo = spuService.querySpuByCidPage(cid,pageParamVo);
         return ResponseVo.ok(pageResultVo);
     }
+    @PostMapping("json")
+    public ResponseVo<List<SpuEntity>> querySpuByPageJson(@RequestBody PageParamVo paramVo){
+        PageResultVo pageResultVo = spuService.queryPage(paramVo);
+
+        return ResponseVo.ok((List<SpuEntity>)pageResultVo.getList());
+    }
 
     /**
      * 列表
