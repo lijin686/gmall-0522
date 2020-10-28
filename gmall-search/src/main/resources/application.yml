@@ -22,6 +22,31 @@ spring:
       uris: http://192.168.230.129:9200
   jackson:
     default-property-inclusion: non_null
+  thymeleaf:
+    cache: false
+
+  rabbitmq:
+    host: 192.168.230.129
+    port: 5672
+    virtual-host: /lijin
+    username: lijin
+    password: 123456
+    listener:
+      simple:
+        acknowledge-mode: manual
+        prefetch: 1
+        concurrency: 3
 feign:
   sentinel:
     enabled: true
+
+#  spring.rabbitmq.host=192.168.230.129
+#  spring.rabbitmq.port=5672
+#  spring.rabbitmq.virtual-host=/lijin
+#  spring.rabbitmq.username=lijin
+#  spring.rabbitmq.password=123456
+#  spring.rabbitmq.listener.simple.prefetch=1
+#  # 开启多线程消费，设置管道数为3个
+#  spring.rabbitmq.listener.simple.concurrency=3
+#
+#  spring.rabbitmq.listener.simple.acknowledge-mode=manual

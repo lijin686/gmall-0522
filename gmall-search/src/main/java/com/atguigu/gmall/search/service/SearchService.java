@@ -58,7 +58,7 @@ public class SearchService {
         try {
             SearchRequest searchRequest = new SearchRequest(new String[]{"goods"}, this.buildDsl(paramVo));
             SearchResponse searchResponse = this.restHighLevelClient.search(searchRequest, RequestOptions.DEFAULT);
-            System.out.println(searchResponse);
+            //System.out.println(searchResponse);
             SearchResponseVo responseVo = parseResult(searchResponse);
             responseVo.setPageNum(paramVo.getPageNum());
             responseVo.setPageSize(paramVo.getPageSize());

@@ -24,6 +24,15 @@ spring:
     password: 123456
   redis:
     host: 192.168.230.129
+  rabbitmq:
+    host: 192.168.230.129
+    port: 5672
+    publisher-confirm-type: correlated
+    publisher-returns: true
+    virtual-host: /lijin
+    username: lijin
+    password: 123456
+
 feign:
   sentinel:
     enabled: true
@@ -33,5 +42,3 @@ mybatis-plus:
   global-config:
     db-config:
       id-type: auto
-
-
