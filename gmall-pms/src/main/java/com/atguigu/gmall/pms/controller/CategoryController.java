@@ -33,6 +33,13 @@ public class CategoryController {
 
     @Autowired
     private CategoryService categoryService;
+
+    //查询二级分类和三级分类
+    @GetMapping("parent/withsub/{pid}")
+    public ResponseVo<List<CategoryEntity>> queryCategoryLvl2WithSubsById(@PathVariable("pid")Long pid){
+        List<CategoryEntity> categoryEntities = this.categoryService.queryCategoryLvl2WithSubsById(pid);
+        return ResponseVo.ok(categoryEntities);
+    }
     /*
         @PathVariable注解
             如果Long后面定义的参数名和GetMapping中的参数一致，都是 parentId

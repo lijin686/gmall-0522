@@ -40,4 +40,8 @@ public interface GmallPmsApi {
 
     @GetMapping("pms/category/parent/{parentId}")
     public ResponseVo<List<CategoryEntity>> queryCategoriesByPid(@PathVariable("parentId") Long pid);
+
+    //查询二级分类和三级分类
+    @GetMapping("pms/category/parent/withsub/{pid}")
+    public ResponseVo<List<CategoryEntity>> queryCategoryLvl2WithSubsById(@PathVariable("pid")Long pid);
 }
