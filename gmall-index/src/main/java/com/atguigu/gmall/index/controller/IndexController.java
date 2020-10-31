@@ -30,7 +30,7 @@ public class IndexController {
     @GetMapping("index/cates/{pid}")
     @ResponseBody
     public ResponseVo<List<CategoryEntity>>queryCategoryLvl2WithSubsById(@PathVariable("pid")Long pid){
-        List<CategoryEntity> categoryEntities = this.indexService.queryCategoryLvl2WithSubsById(pid);
+        List<CategoryEntity> categoryEntities = this.indexService.queryCategoryLvl2WithSubsById2(pid);
         return ResponseVo.ok(categoryEntities);
     }
 
@@ -40,8 +40,24 @@ public class IndexController {
     @GetMapping("index/test/lock")
     @ResponseBody
     public synchronized ResponseVo<Object> testLock() throws InterruptedException {
-        this.indexService.testLock();
+        this.indexService.testLock2();
         return ResponseVo.ok(null);
+    }
+
+    //测试闭锁
+    @GetMapping("index/test/latch")
+    @ResponseBody
+    public ResponseVo<Object> testLatch() throws InterruptedException {
+        String msg = this.indexService.testLatch();
+        return ResponseVo.ok(msg);
+    }
+
+    //测试闭锁
+    @GetMapping("index/test/down")
+    @ResponseBody
+    public ResponseVo<Object> testDown() throws InterruptedException {
+        String msg = this.indexService.testDown();
+        return ResponseVo.ok(msg);
     }
 
 
