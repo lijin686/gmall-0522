@@ -5,12 +5,15 @@ import com.atguigu.gmall.sms.entity.SkuLadderEntity;
 import com.atguigu.gmall.sms.mapper.SkuFullReductionMapper;
 import com.atguigu.gmall.sms.mapper.SkuLadderMapper;
 import com.atguigu.gmall.sms.service.SkuFullReductionService;
+import com.atguigu.gmall.sms.vo.ItemSaleVo;
 import com.atguigu.gmall.sms.vo.SkuSaleVo;
 import org.hibernate.validator.constraints.EAN;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -72,6 +75,43 @@ public class SkuBoundsServiceImpl extends ServiceImpl<SkuBoundsMapper, SkuBounds
         BeanUtils.copyProperties(skuSaleVo,skuLadderEntity);
         skuLadderEntity.setAddOther(skuSaleVo.getLadderAddOther());
         this.skuLadderMapper.insert(skuLadderEntity);
+
+    }
+
+    //根据skuId查询sku所有的营销信息
+    @Override
+    public List<ItemSaleVo> queryItemSalesBySkuId(Long skuId) {
+
+        List<ItemSaleVo> itemSaleVos = new ArrayList<>();
+
+        //查询积分优惠
+        SkuBoundsEntity skuBoundsEntity = this.getOne(new QueryWrapper<SkuBoundsEntity>().eq("sku_id", skuId));
+        if(skuBoundsEntity != null){
+            ItemSaleVo boundItemSaleVo = new ItemSaleVo();
+            boundItemSaleVo.setType("积分");
+            boundItemSaleVo.setDesc("赠送"+skuBoundsEntity.getGrowBounds()+"成长积分,赠送"+skuBoundsEntity.getBuyBounds()+"优惠积分");
+            itemSaleVos.add(boundItemSaleVo);
+        }
+
+
+        //查询满减优惠
+        SkuFullReductionEntity skuFullReductionEntity = this.fullReductionMapper.selectOne(new QueryWrapper<SkuFullReductionEntity>().eq("sku_id", skuId));
+        if(skuFullReductionEntity != null){
+            ItemSaleVo reductItemSaleVo = new ItemSaleVo();
+            reductItemSaleVo.setDesc("满"+skuFullReductionEntity.getFullPrice()+"减"+skuFullReductionEntity.getReducePrice());
+            reductItemSaleVo.setType("满减");
+            itemSaleVos.add(reductItemSaleVo);
+        }
+        //查询打折优惠
+        SkuLadderEntity skuLadderEntity = this.skuLadderMapper.selectOne(new QueryWrapper<SkuLadderEntity>().eq("sku_id", skuId));
+        if(skuLadderEntity != null){
+            ItemSaleVo ladderItemSaleVo = new ItemSaleVo();
+            ladderItemSaleVo.setType("打折");
+            ladderItemSaleVo.setDesc("满"+skuLadderEntity.getFullCount()+"件，打"+skuLadderEntity.getDiscount().divide(new BigDecimal(10))+"折");
+            itemSaleVos.add(ladderItemSaleVo);
+        }
+
+        return itemSaleVos;
 
     }
 
