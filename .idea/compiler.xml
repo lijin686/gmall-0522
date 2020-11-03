@@ -20,6 +20,7 @@
         <module name="gmall-sms-interface" />
         <module name="gmall-index" />
         <module name="gmall-wms-interface" />
+        <module name="gmall-ums-interface" />
         <module name="gmall-search" />
       </profile>
     </annotationProcessing>
@@ -38,6 +39,7 @@
       <module name="gmall-sms" target="1.8" />
       <module name="gmall-sms-interface" target="1.8" />
       <module name="gmall-ums" target="1.8" />
+      <module name="gmall-ums-interface" target="1.8" />
       <module name="gmall-wms" target="1.8" />
       <module name="gmall-wms-interface" target="1.8" />
     </bytecodeTargetLevel>
@@ -57,6 +59,7 @@
       <module name="gmall-sms" options="-parameters" />
       <module name="gmall-sms-interface" options="-parameters" />
       <module name="gmall-ums" options="-parameters" />
+      <module name="gmall-ums-interface" options="-parameters" />
       <module name="gmall-wms" options="-parameters" />
       <module name="gmall-wms-interface" options="-parameters" />
     </option>

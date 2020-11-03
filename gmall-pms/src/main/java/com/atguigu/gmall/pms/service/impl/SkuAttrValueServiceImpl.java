@@ -69,6 +69,7 @@ public class SkuAttrValueServiceImpl extends ServiceImpl<SkuAttrValueMapper, Sku
 
             List<SaleAttrValueVo> saleAttrValueVos = new ArrayList<>();
             //对同一个spu下的规格属性进行分组
+            // SkuAttrValueEntity::getAttrId 就相当于 skuAttrValueEntity.getAttrId()
             Map<Long, List<SkuAttrValueEntity>> map = skuAttrValueEntities.stream().collect(Collectors.groupingBy(SkuAttrValueEntity::getAttrId));
             map.forEach((attrId,attrValueEntities)->{
                 SaleAttrValueVo saleAttrValueVo = new SaleAttrValueVo();

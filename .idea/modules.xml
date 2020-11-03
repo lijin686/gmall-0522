@@ -16,6 +16,7 @@
       <module fileurl="file://$PROJECT_DIR$/gmall-sms/gmall-sms.iml" filepath="$PROJECT_DIR$/gmall-sms/gmall-sms.iml" />
       <module fileurl="file://$PROJECT_DIR$/gmall-sms-interface/gmall-sms-interface.iml" filepath="$PROJECT_DIR$/gmall-sms-interface/gmall-sms-interface.iml" />
       <module fileurl="file://$PROJECT_DIR$/gmall-ums/gmall-ums.iml" filepath="$PROJECT_DIR$/gmall-ums/gmall-ums.iml" />
+      <module fileurl="file://$PROJECT_DIR$/gmall-ums-interface/gmall-ums-interface.iml" filepath="$PROJECT_DIR$/gmall-ums-interface/gmall-ums-interface.iml" />
       <module fileurl="file://$PROJECT_DIR$/gmall-wms/gmall-wms.iml" filepath="$PROJECT_DIR$/gmall-wms/gmall-wms.iml" />
       <module fileurl="file://$PROJECT_DIR$/gmall-wms-interface/gmall-wms-interface.iml" filepath="$PROJECT_DIR$/gmall-wms-interface/gmall-wms-interface.iml" />
     </modules>

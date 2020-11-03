@@ -21,6 +21,7 @@
         <module>gmall-common</module>
         <module>gmall-gateway</module>
         <module>gmall-sms-interface</module>
+        <module>gmall-ums-interface</module>
     </modules>
 
     <properties>
