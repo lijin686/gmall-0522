@@ -112,6 +112,10 @@ spring:
           uri: lb://auth-service
           predicates:
             - Host=sso.gmall.com
+        - id: cart-route
+          uri: lb://cart-service
+          predicates:
+            - Host=cart.gmall.com
 auth:
   jwt:
     pubKeyPath: F:\Java\gmall-0522\project-0522\rsa\rsa.pub
