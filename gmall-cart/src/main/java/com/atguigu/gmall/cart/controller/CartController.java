@@ -5,12 +5,13 @@ import com.atguigu.gmall.cart.pojo.Cart;
 import com.atguigu.gmall.cart.pojo.UserInfo;
 import com.atguigu.gmall.cart.interceptor.LoginInterceptor;
 import com.atguigu.gmall.cart.service.CartService;
+import com.atguigu.gmall.common.bean.ResponseVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Controller
 public class CartController {
@@ -41,4 +42,47 @@ public class CartController {
         model.addAttribute("cart",cart);
         return "addCart";
     }
+
+    //查询购物车
+    @GetMapping("cart.html")
+    public String queryCart(Model model){
+        List<Cart> carts = this.cartService.queryCart();
+        model.addAttribute("carts",carts);
+        return "cart";
+
+    }
+
+    //用户点击+ - 来更新商品数量
+    @PostMapping("updateNum")
+    @ResponseBody
+    public ResponseVo<Cart> updateNum(@RequestBody Cart cart){
+        this.cartService.updateNum(cart);
+        return ResponseVo.ok();
+    }
+
+    //用户点击商品前面的选中按钮
+    @PostMapping("updateStatus")
+    @ResponseBody
+    public ResponseVo<Cart> updateStatus(@RequestBody Cart cart){
+        this.cartService.updateStatus(cart);
+        return ResponseVo.ok();
+    }
+
+    //删除购物车中的商品
+    @PostMapping("deleteCart")
+    @ResponseBody
+    public ResponseVo<Cart> deleteCart(@RequestParam("skuId")Long skuId){
+        this.cartService.deleteCart(skuId);
+        return ResponseVo.ok();
+    }
 }
+
+
+
+
+
+
+
+
+
+
