@@ -24,6 +24,17 @@ spring:
     password: 123456
   redis:
     host: 192.168.230.129
+  rabbitmq:
+    host: 192.168.230.129
+    port: 5672
+    virtual-host: /lijin
+    username: lijin
+    password: 123456
+    listener:
+      simple:
+        prefetch: 1
+        concurrency: 3
+        acknowledge-mode: manual
   thymeleaf:
     cache: false
   task:

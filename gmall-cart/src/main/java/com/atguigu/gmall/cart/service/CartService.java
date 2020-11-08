@@ -51,6 +51,8 @@ public class CartService {
 
     private static final String KEY_PREFIX = "cart:info:";
 
+    private static final String PRICE_PREFIX = "cart:price:";
+
     private static final ObjectMapper MAPPER = new ObjectMapper();
 
     public void addCart(Cart cart) {
@@ -109,6 +111,10 @@ public class CartService {
             //保存到数据库
             this.asyncService.saveCart(userId,cart);
             //this.cartMapper.insert(cart);
+            //缓存实时价格
+            if(skuEntity !=null){
+                this.redisTemplate.opsForValue().set(PRICE_PREFIX+skuIdString,skuEntity.getPrice().toString());
+            }
 
         }
         hashOps.put(skuIdString, JSON.toJSONString(cart));
@@ -182,9 +188,16 @@ public class CartService {
                     String cartJson = loginHashOps.get(cart.getSkuId().toString()).toString();
                     cart= JSON.parseObject(cartJson, Cart.class);
                     cart.setCount(cart.getCount().add(count));
-                    //写回redis
-                    loginHashOps.put(cart.getSkuId().toString(),JSON.toJSONString(cart));
+                    cart.setCurrentPrice(new BigDecimal(this.redisTemplate.opsForValue().get(PRICE_PREFIX+cart.getSkuId())));
+
+                } else {
+                    // 如果不存在，新增购物车记录
+                    cart.setUserId(userId.toString());
+                    asyncService.saveCart(userId.toString(), cart);
                 }
+
+                //写回redis
+                loginHashOps.put(cart.getSkuId().toString(),JSON.toJSONString(cart));
             });
         }
 
@@ -196,7 +209,11 @@ public class CartService {
         //获取登录状态下的购物车
         List<Object> loginValues = loginHashOps.values();
         if(!CollectionUtils.isEmpty(loginValues)){
-            return loginValues.stream().map(cartJson -> JSON.parseObject(cartJson.toString(),Cart.class)).collect(Collectors.toList());
+            return loginValues.stream().map(cartJson -> {
+                Cart cart = JSON.parseObject(cartJson.toString(),Cart.class);
+                cart.setCurrentPrice(new BigDecimal(this.redisTemplate.opsForValue().get(PRICE_PREFIX+cart.getSkuId())));
+                return cart;
+            }).collect(Collectors.toList());
         }
 
         return null;
@@ -215,6 +232,7 @@ public class CartService {
             cart = JSON.parseObject(cartJson, Cart.class);
             //更新数量
             cart.setCount(count);
+
 
             //写回redis
             hashOps.put(cart.getSkuId().toString(),JSON.toJSONString(cart));

@@ -22,6 +22,7 @@
         <module name="gmall-wms-interface" />
         <module name="gmall-ums-interface" />
         <module name="gmall-cart" />
+        <module name="gmall-scheduling" />
         <module name="gmall-auth" />
         <module name="gmall-search" />
       </profile>
@@ -39,6 +40,7 @@
       <module name="gmall-oms" target="1.8" />
       <module name="gmall-pms" target="1.8" />
       <module name="gmall-pms-interface" target="1.8" />
+      <module name="gmall-scheduling" target="1.8" />
       <module name="gmall-search" target="1.8" />
       <module name="gmall-sms" target="1.8" />
       <module name="gmall-sms-interface" target="1.8" />
@@ -61,6 +63,7 @@
       <module name="gmall-oms" options="-parameters" />
       <module name="gmall-pms" options="-parameters" />
       <module name="gmall-pms-interface" options="-parameters" />
+      <module name="gmall-scheduling" options="-parameters" />
       <module name="gmall-search" options="-parameters" />
       <module name="gmall-sms" options="-parameters" />
       <module name="gmall-sms-interface" options="-parameters" />
