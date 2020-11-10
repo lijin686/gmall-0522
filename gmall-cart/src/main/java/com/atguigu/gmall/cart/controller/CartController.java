@@ -2,7 +2,7 @@ package com.atguigu.gmall.cart.controller;
 
 
 import com.atguigu.gmall.cart.pojo.Cart;
-import com.atguigu.gmall.cart.pojo.UserInfo;
+import com.atguigu.gmall.common.bean.UserInfo;
 import com.atguigu.gmall.cart.interceptor.LoginInterceptor;
 import com.atguigu.gmall.cart.service.CartService;
 import com.atguigu.gmall.common.bean.ResponseVo;
@@ -18,6 +18,14 @@ public class CartController {
 
     @Autowired
     private CartService cartService;
+
+    //根据userId获取选中状态的购物车信息
+    @GetMapping("checked/{userId}")
+    @ResponseBody
+    public ResponseVo<List<Cart>> queryCheackedCartByUserId(@PathVariable("userId")Long userId){
+        List<Cart> carts = this.cartService.queryCheackedCartByUserId(userId);
+        return ResponseVo.ok(carts);
+    }
 
 
     @GetMapping("test")

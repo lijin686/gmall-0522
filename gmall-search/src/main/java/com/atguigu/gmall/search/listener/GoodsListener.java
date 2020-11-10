@@ -42,7 +42,7 @@ public class GoodsListener {
             key = {"item.insert"}
     ))
     public void listener(Long spuId, Channel channel, Message message){
-        System.out.println("执行了吗");
+        //System.out.println("执行了吗");
         // 查询出spu下所有的sku集合
         ResponseVo<List<SkuEntity>> skusResponseVo = this.pmsClient.querySkusBySpuId(spuId);
         List<SkuEntity> skuEntities = skusResponseVo.getData();

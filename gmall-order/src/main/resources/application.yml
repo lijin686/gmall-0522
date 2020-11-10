@@ -1,0 +1,54 @@
+server:
+  port: 18092
+spring:
+  cloud:
+    nacos:
+      discovery:
+        server-addr: localhost:8848
+    sentinel:
+      transport:
+        dashboard: localhost:8080
+        port: 8719
+  zipkin:
+    base-url: http://localhost:9411
+    discovery-client-enabled: false
+    sender:
+      type: web
+  sleuth:
+    sampler:
+      probability: 1
+  redis:
+    host: 192.168.230.129
+  rabbitmq:
+    host: 192.168.230.129
+    port: 5672
+    virtual-host: /lijin
+    username: lijin
+    password: 123456
+  thymeleaf:
+    cache: false
+  task:
+    execution:
+      thread-name-prefix: cart-task-
+      pool:
+        core-size: 100
+        max-size: 500
+        queue-capacity: 5000
+        keep-alive: 60s
+        allow-core-thread-timeout: true
+      shutdown:
+        await-termination: true
+        await-termination-period: 60
+feign:
+  sentinel:
+    enabled: true
+mybatis-plus:
+  global-config:
+    db-config:
+      id-type: auto
+auth:
+  jwt:
+    pubKeyPath: F:\Java\gmall-0522\project-0522\rsa\rsa.pub
+    cookieName: GMALL-TOKEN
+    userKey: user-key
+    expire: 15552000

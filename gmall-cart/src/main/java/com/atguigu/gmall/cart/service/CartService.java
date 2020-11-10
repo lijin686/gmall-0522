@@ -7,19 +7,16 @@ import com.atguigu.gmall.cart.feign.GmallWmsClient;
 import com.atguigu.gmall.cart.interceptor.LoginInterceptor;
 import com.atguigu.gmall.cart.mapper.CartMapper;
 import com.atguigu.gmall.cart.pojo.Cart;
-import com.atguigu.gmall.cart.pojo.UserInfo;
+import com.atguigu.gmall.common.bean.UserInfo;
 import com.atguigu.gmall.common.bean.ResponseVo;
 import com.atguigu.gmall.pms.entity.SkuAttrValueEntity;
 import com.atguigu.gmall.pms.entity.SkuEntity;
 import com.atguigu.gmall.sms.vo.ItemSaleVo;
 import com.atguigu.gmall.wms.entity.WmsWareSkuEntity;
-import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.BoundHashOperations;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -67,6 +64,7 @@ public class CartService {
 
         //获取要加入购物车的skuId和销售数量
         String skuIdString = cart.getSkuId().toString();
+        System.out.println("skuString"+skuIdString);
         BigDecimal cartCount = cart.getCount();
 
         // 判断购物车中是否存在该商品,如果存在就更新数量
@@ -211,6 +209,7 @@ public class CartService {
         if(!CollectionUtils.isEmpty(loginValues)){
             return loginValues.stream().map(cartJson -> {
                 Cart cart = JSON.parseObject(cartJson.toString(),Cart.class);
+                System.out.println(cart.getSkuId());
                 cart.setCurrentPrice(new BigDecimal(this.redisTemplate.opsForValue().get(PRICE_PREFIX+cart.getSkuId())));
                 return cart;
             }).collect(Collectors.toList());
@@ -275,6 +274,18 @@ public class CartService {
             //删除mysql
             this.asyncService.deleteCartByUserIdAndSkuId(userId,skuId);
         }
+    }
+
+    //根据userId来查询购物车中选中的商品
+    public List<Cart> queryCheackedCartByUserId(Long userId) {
+        String key = KEY_PREFIX + userId;
+        BoundHashOperations<String, Object, Object> hashOps = this.redisTemplate.boundHashOps(key);
+        List<Object> values = hashOps.values();
+        if(!CollectionUtils.isEmpty(values)){
+            return values.stream().map(value -> JSON.parseObject(value.toString(),Cart.class)).filter(Cart::getCheck).collect(Collectors.toList());
+        }
+        return null;
+
     }
 }
 
