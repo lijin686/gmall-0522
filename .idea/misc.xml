@@ -20,6 +20,7 @@
         <option value="$PROJECT_DIR$/gmall-cart/pom.xml" />
         <option value="$PROJECT_DIR$/gmall-scheduling/pom.xml" />
         <option value="$PROJECT_DIR$/gmall-order/pom.xml" />
+        <option value="$PROJECT_DIR$/gmall-payment/pom.xml" />
       </list>
     </option>
   </component>

@@ -1,4 +1,4 @@
-package com.atguigu.gmall.oms.config;
+package com.atguigu.gmall.wms.config;
 
 
 import lombok.extern.slf4j.Slf4j;
@@ -45,10 +45,10 @@ public class RabbitConfig {
      */
     @Bean
     public Queue ttlQueue(){
-        return QueueBuilder.durable("ORDER_TTL_QUEUE")
-                .withArgument("x-message-ttl",90000)
+        return QueueBuilder.durable("STOCK_TTL_QUEUE")
+                .withArgument("x-message-ttl",120000)
                 .withArgument("x-dead-letter-exchange","ORDER_EXCHANGE")
-                .withArgument("x-dead-letter-routing-key","order.dead").build();
+                .withArgument("x-dead-letter-routing-key","stock.unlock").build();
     }
     /**
      * 延时队列绑定给大交换机
@@ -56,25 +56,9 @@ public class RabbitConfig {
      */
     @Bean
     public Binding ttlBinding(){
-        return new Binding("ORDER_TTL_QUEUE", Binding.DestinationType.QUEUE, "ORDER_EXCHANGE", "order.ttl", null);
+        return new Binding("STOCK_TTL_QUEUE", Binding.DestinationType.QUEUE, "ORDER_EXCHANGE", "stock.ttl", null);
     }
 
-    /**
-     * 死信队列
-     * @return
-     */
-    @Bean
-    public Queue deadQueue(){
-        return QueueBuilder.durable("ORDER_DEAD_QUEUE").build();
-    }
-
-    /**
-     * 把死信队列绑定给死信交换机（ORDER_EXCHANGE）
-     */
-    @Bean
-    public Binding deadBinding(){
-        return new Binding("ORDER_DEAD_QUEUE", Binding.DestinationType.QUEUE, "ORDER_EXCHANGE", "order.dead", null);
-    }
 }
 
 

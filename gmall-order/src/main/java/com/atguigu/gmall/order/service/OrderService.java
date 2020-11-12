@@ -185,7 +185,8 @@ public class OrderService {
         if(!CollectionUtils.isEmpty(skuLockVoList)){
             throw new OrderException(JSON.toJSONString(skuLockVoList));
         }
-
+        //测试出现异常，定时解锁库存
+        //int i = 1/0;
         // 4 下单
         UserInfo userInfo = LoginInterceptor.getUserInfo();
         Long userId = userInfo.getUserId();
@@ -197,6 +198,7 @@ public class OrderService {
             e.printStackTrace();
             //标记订单是无效订单并解锁库存
             this.rabbitTemplate.convertAndSend("ORDER_EXCHANGE","order.disable",orderToken);
+
         }
 
         // 5 删除购物车对应的数据，向消息队列中发送skuId 和 userId

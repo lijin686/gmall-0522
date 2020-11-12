@@ -35,8 +35,16 @@ public class OrderListener {
         this.orderMapper.updateStatus(orderToken, 0, 5);
 
         this.rabbitTemplate.convertAndSend("ORDER_EXCHANGE","stock.unlock",orderToken);
-
         channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);
+    }
+
+
+    @RabbitListener(queues = "ORDER_DEAD_QUEUE")
+    public void close(String orderToken,Channel channel,Message message) throws IOException {
+        if(orderMapper.updateStatus(orderToken,0,4)==1){
+            this.rabbitTemplate.convertAndSend("ORDER_EXCHANGE","stock.unlock",orderToken);
+        }
+        channel.basicAck(message.getMessageProperties().getDeliveryTag(),false);
     }
 }
 

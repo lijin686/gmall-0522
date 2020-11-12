@@ -30,6 +30,13 @@ spring:
     virtual-host: /lijin
     username: lijin
     password: 123456
+    listener:
+      simple:
+        prefetch: 1
+        concurrency: 3
+        acknowledge-mode: manual
+    publisher-returns: true
+    publisher-confirm-type: correlated
 feign:
   sentinel:
     enabled: true
