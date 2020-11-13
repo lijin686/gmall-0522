@@ -63,4 +63,30 @@ public class StockListener {
         channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);
     }
 
+    //订单支付成功后减库存
+    @RabbitListener(bindings = @QueueBinding(
+            value = @Queue(value = "STOCK_MINUS_QUEUE", durable = "true"),
+            exchange = @Exchange(value = "ORDER_EXCHANGE", ignoreDeclarationExceptions = "true", type = ExchangeTypes.TOPIC),
+            key = {"stock.minus"}
+    ))
+    public void minus(String orderToken, Channel channel, Message message) throws IOException {
+        String stockJson = this.redisTemplate.opsForValue().get(KEY_PREFIX + orderToken);
+        if(StringUtils.isNoneBlank(stockJson)){
+            List<SkuLockVo> skuLockVos = JSON.parseArray(stockJson, SkuLockVo.class);
+            skuLockVos.forEach(lockVo -> {
+                this.wareSkuMapper.minus(lockVo.getWareSkuId(),lockVo.getCount());
+            });
+        }
+        channel.basicAck(message.getMessageProperties().getDeliveryTag(),false);
+    }
+
 }
+
+
+
+
+
+
+
+
+

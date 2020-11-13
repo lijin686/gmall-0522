@@ -21,5 +21,6 @@ public interface WmsWareSkuMapper extends BaseMapper<WmsWareSkuEntity> {
 
     public int lock(@Param("id")Long id,@Param("count")Integer count);
     public int unlock(@Param("id")Long id,@Param("count")Integer count);
+    public int minus(@Param("id")Long id,@Param("count")Integer count);
 
 }
