@@ -69,7 +69,7 @@ public class SpuServiceImpl extends ServiceImpl<SpuMapper, SpuEntity> implements
     }
 
     /*
-        根据f分类id查询商品
+        根据分类id查询商品
      */
     @Override
     public PageResultVo querySpuByCidPage(Long cid, PageParamVo pageParamVo) {

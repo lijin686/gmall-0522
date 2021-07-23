@@ -20,6 +20,7 @@ import java.util.UUID;
 @EnableConfigurationProperties(JwtProperties.class)
 public class LoginInterceptor implements HandlerInterceptor {
 
+
     public static final ThreadLocal<UserInfo> THREAD_LOCAL = new ThreadLocal<>();
 
     @Autowired

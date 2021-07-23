@@ -11,6 +11,7 @@ import com.atguigu.gmall.payment.interceptor.LoginInterceptor;
 import com.atguigu.gmall.payment.service.PaymentService;
 import com.atguigu.gmall.payment.vo.PayAsyncVo;
 import com.atguigu.gmall.payment.vo.PayVo;
+import com.baomidou.mybatisplus.core.toolkit.IdWorker;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,6 +58,7 @@ public class PaymentController {
     @PostMapping("pay/success")
     @ResponseBody
     public String paySuccess(PayAsyncVo payAsyncVo){
+
         System.out.println("异步回调成功");
         // 1 验签
         Boolean signature = this.alipayTemplate.checkSignature(payAsyncVo);
